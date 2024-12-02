@@ -67,6 +67,8 @@ export default function ProductForm({
 
   // Here save or add product
   async function addNewProduct(e) {
+    e.preventDefault();
+
     if (!name || !price || !category || !images.length) {
       toast.warn("Please fill in all required fields!", {
         position: "top-right",
@@ -79,7 +81,6 @@ export default function ProductForm({
       });
       return;
     }
-    e.preventDefault();
     const data = {
       name,
       description,
@@ -88,10 +89,7 @@ export default function ProductForm({
       category,
       properties: productProperties,
     };
-    console.log("Submitting data:", data);
     try {
-      e.preventDefault();
-
       if (_id) {
         await axios.put("/api/products", { ...data, _id });
         toast.success("Product updated successfully!", {

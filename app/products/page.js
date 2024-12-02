@@ -68,8 +68,8 @@ export default function Products() {
 
   return (
     <>
-      <ToastContainer />
       <Layout>
+        <ToastContainer />
         <Link
           className="bg-green-900 py-1 px-2 rounded-lg text-white"
           href={"/products/add"}>
