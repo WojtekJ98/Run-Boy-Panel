@@ -1,8 +1,4 @@
-import client from "../../../lib/db";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import NextAuth, { getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { NextResponse } from "next/server";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const adminEmail = ["wojtelopl@gmail.com", "runboy@example.com"];
@@ -11,7 +7,7 @@ const adminCredentials = {
   password: "Runboy2024!",
 };
 
-const authOptions = {
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -64,6 +60,3 @@ const authOptions = {
     },
   },
 };
-
-export const GET = NextAuth(authOptions);
-export const POST = NextAuth(authOptions);
