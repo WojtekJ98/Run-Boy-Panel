@@ -11,6 +11,10 @@ const adminCredentials = {
   password: "Runboy2024!",
 };
 
+const secret = process.env.NEXTAUTH_SECRET;
+
+console.log(secret);
+
 const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 

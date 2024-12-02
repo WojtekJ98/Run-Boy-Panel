@@ -8,6 +8,8 @@ import Delete from "../../assets/icons/delete.svg";
 import ModalDelete from "../../components/ModalDelete";
 import { useRouter } from "next/navigation";
 import LoadingSpiner from "../../components/LoadingSpiner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -36,6 +38,15 @@ export default function Products() {
     e.preventDefault();
     try {
       await axios.delete(`/api/products?id=${selectedProductId._id}`);
+      toast.success("Product delete successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
 
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== selectedProductId._id)
@@ -43,11 +54,21 @@ export default function Products() {
       closeModal();
     } catch (error) {
       console.error("Error with deleting", error);
+      toast.error("Error with deleting. Please try again!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 
   return (
     <>
+      <ToastContainer />
       <Layout>
         <Link
           className="bg-green-900 py-1 px-2 rounded-lg text-white"
@@ -90,7 +111,6 @@ export default function Products() {
           </div>
         )}
       </Layout>
-
       {isModalOpen && (
         <ModalDelete
           isOpen={isModalOpen}

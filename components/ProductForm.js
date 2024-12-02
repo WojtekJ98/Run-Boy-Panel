@@ -7,6 +7,8 @@ import Upload from "../assets/icons/upload.svg";
 import LoadingSpiner from "../components/LoadingSpiner";
 import { ReactSortable } from "react-sortablejs";
 import Select from "react-select";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const customStylesSelect = {
   control: (provided, state) => ({
@@ -65,8 +67,18 @@ export default function ProductForm({
 
   // Here save or add product
   async function addNewProduct(e) {
-    console.log("Form data before submission:", productProperties);
-
+    if (!name || !price || !category || !images.length) {
+      toast.warn("Please fill in all required fields!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
     e.preventDefault();
     const data = {
       name,
@@ -77,13 +89,45 @@ export default function ProductForm({
       properties: productProperties,
     };
     console.log("Submitting data:", data);
+    try {
+      e.preventDefault();
 
-    if (_id) {
-      await axios.put("/api/products", { ...data, _id });
-    } else {
-      await axios.post("/api/products", data);
+      if (_id) {
+        await axios.put("/api/products", { ...data, _id });
+        toast.success("Product updated successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        await axios.post("/api/products", data);
+        toast.success("Product added successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+      setShowProducts(true);
+    } catch (error) {
+      console.error("Error saving product:", error);
+      toast.error("Error saving product. Please try again!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-    setShowProducts(true);
   }
 
   // Handle file selection
@@ -116,10 +160,26 @@ export default function ProductForm({
       // Add the new image URL to the existing images
       setImages((prevImages) => [...prevImages, imageUrl]);
 
-      alert("Upload successful!");
+      toast.success("Image upload successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.error("Error with uploading file", error);
-      alert("Upload failed");
+      toast.error("Upload failed. Please try again!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } finally {
       setUploading(false);
     }
@@ -157,6 +217,7 @@ export default function ProductForm({
 
   return (
     <>
+      <ToastContainer />
       {loading ? (
         <div className="loading">
           <LoadingSpiner />

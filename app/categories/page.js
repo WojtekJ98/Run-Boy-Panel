@@ -6,6 +6,8 @@ import ModalDeleteCat from "../../components/ModalDeleteCat";
 import Edit from "../../assets/icons/edit.svg";
 import Delete from "../../assets/icons/delete.svg";
 import LoadingSpiner from "../../components/LoadingSpiner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CategoriesPage() {
   const [editedCat, setEditedCat] = useState(null);
@@ -38,8 +40,26 @@ export default function CategoriesPage() {
         )
       );
       closeModal();
+      toast.success("Category deleted successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.error("Error with deleting", error);
+      toast.error("Failed to delete the category. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 
@@ -54,6 +74,18 @@ export default function CategoriesPage() {
   }
   async function saveCategory(e) {
     e.preventDefault();
+    if (!name) {
+      toast.warn("Category name is required!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
     const data = {
       name,
       parentCategory,
@@ -62,16 +94,47 @@ export default function CategoriesPage() {
         values: property.values.split(","),
       })),
     };
-    if (editedCat) {
-      await axios.put("/api/categories", { ...data, _id: editedCat._id });
-      setEditedCat(null);
-    } else {
-      await axios.post("/api/categories", data);
+    try {
+      if (editedCat) {
+        await axios.put("/api/categories", { ...data, _id: editedCat._id });
+        toast.success("Category updated successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setEditedCat(null);
+      } else {
+        await axios.post("/api/categories", data);
+        toast.success("Category added successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+      setName("");
+      setParentCategory("");
+      setProperties([]);
+      fetchCategories();
+    } catch (error) {
+      console.error("Error saving category:", error);
+      toast.error("Failed to save the category. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-    setName("");
-    setParentCategory("");
-    setProperties([]);
-    fetchCategories();
   }
   function editCategory(category) {
     setEditedCat(category);
