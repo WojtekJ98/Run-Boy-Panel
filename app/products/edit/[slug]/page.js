@@ -4,6 +4,8 @@ import Layout from "../../../../components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductForm from "../../../../components/ProductForm";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EditProductPage() {
   const [productDetails, setProductDetails] = useState(null);
@@ -21,6 +23,8 @@ export default function EditProductPage() {
 
   return (
     <Layout>
+      {" "}
+      <ToastContainer />
       <h1 className="">Edit Product</h1>
       {productDetails && <ProductForm {...productDetails} />}
     </Layout>
