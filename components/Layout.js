@@ -7,8 +7,6 @@ import StoreRun from "../assets/icons/store-runboy.svg";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 
 export default function Layout({ children }) {
   const { data: session, status } = useSession();
@@ -50,8 +48,7 @@ export default function Layout({ children }) {
         <div className="bg-white overflow-y-scroll h-[98vh] flex-grow mt-2 mr-2 rounded-lg p-4 mb-2">
           {children}
         </div>
-      </div>{" "}
-      <ToastContainer />
+      </div>
     </div>
   );
 }
