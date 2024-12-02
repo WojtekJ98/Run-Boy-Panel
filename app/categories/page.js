@@ -180,6 +180,7 @@ export default function CategoriesPage() {
   return (
     <>
       <Layout>
+        <ToastContainer />
         {loading ? (
           <div className="loading">
             <LoadingSpiner />
