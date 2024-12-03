@@ -8,19 +8,11 @@ export async function GET(req) {
 
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("user");
+    const limit = parseInt(searchParams.get("limit")) || 0;
+    const query = userId ? { user: userId } : {};
+    const orders = await Order.find(query).sort({ createdAt: -1 }).limit(limit);
 
-    console.log(userId);
-
-    if (userId) {
-      const order = await Order.find({ user: userId });
-      if (!order) {
-        return NextResponse.json({ error: "Order not found" }, { status: 404 });
-      }
-      return NextResponse.json(order);
-    } else {
-      const orders = await Order.find({});
-      return NextResponse.json(orders);
-    }
+    return NextResponse.json(orders);
   } catch (error) {
     return NextResponse.json({
       error: "Error fetching data",

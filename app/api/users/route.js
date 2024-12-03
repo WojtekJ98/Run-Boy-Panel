@@ -34,17 +34,11 @@ export async function GET(req) {
 
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("id");
+    const limit = parseInt(searchParams.get("limit")) || 0;
+    const query = userId ? { _id: userId } : {};
+    const users = await User.find(query).sort({ createdAt: -1 }).limit(limit);
 
-    if (userId) {
-      const user = await User.findOne({ _id: userId });
-      if (!user) {
-        return NextResponse.json({ error: "User not found" }, { status: 404 });
-      }
-      return NextResponse.json(user);
-    } else {
-      const users = await User.find({});
-      return NextResponse.json(users);
-    }
+    return NextResponse.json(users);
   } catch (error) {
     return NextResponse.json(
       { error: "Error getting users", details: error.message },

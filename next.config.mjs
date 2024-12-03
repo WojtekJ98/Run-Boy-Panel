@@ -13,6 +13,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "runboy-nextjs.s3.amazonaws.com",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
         hostname: "lh3.googleusercontent.com",
         port: "",
         pathname: "**",
