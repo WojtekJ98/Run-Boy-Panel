@@ -7,7 +7,6 @@ export async function GET(req) {
     await mongooseConnect();
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("user");
-    console.log(userId);
 
     if (userId) {
       const favoriteItem = await FavoriteItem.find({ user: userId });

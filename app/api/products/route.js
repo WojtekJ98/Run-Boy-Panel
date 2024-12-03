@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
 import { Product } from "../../../models/Product";
 import mongooseConnect from "../../lib/mongoose";
+import { getServerSession } from "next-auth";
+import { OPTIONS } from "../auth/[...nextauth]/route";
 export async function POST(req, res) {
   try {
     await mongooseConnect();
+    const session = await getServerSession(OPTIONS);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const body = await req.json();
-    console.log("Received data in POST route:", body); // Add this line
 
     const { name, description, price, images, category, properties } = body;
 
@@ -17,6 +22,7 @@ export async function POST(req, res) {
       images,
       category,
       properties,
+      owner: session.user.email,
     });
 
     return NextResponse.json({
@@ -60,13 +66,24 @@ export async function GET(req) {
 export async function PUT(req) {
   try {
     await mongooseConnect();
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const body = await req.json();
     const { name, description, price, images, _id, category, properties } =
       body;
     await Product.updateOne(
       { _id },
-      { name, description, price, images, category, properties }
+      {
+        name,
+        description,
+        price,
+        images,
+        category,
+        properties,
+      }
     );
 
     return NextResponse.json({
@@ -83,6 +100,10 @@ export async function PUT(req) {
 export async function DELETE(req) {
   try {
     await mongooseConnect();
+    const session = await getServerSession(OPTIONS);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const { searchParams } = new URL(req.url);
     const _id = searchParams.get("id");
@@ -92,6 +113,21 @@ export async function DELETE(req) {
         { status: 400 }
       );
     }
+    const product = await Product.findOne({ _id });
+    if (!product) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+    if (session.user.role !== "admin" && product.owner !== session.user.email) {
+      console.log(session);
+
+      return NextResponse.json(
+        {
+          error: "You can only delete products you have added.",
+        },
+        { status: 403 }
+      );
+    }
+
     await Product.deleteOne({ _id });
     return NextResponse.json({ message: "Product delete successfully" });
   } catch (error) {

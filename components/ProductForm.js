@@ -141,7 +141,7 @@ export default function ProductForm({
       setUploading(true);
       const fileType = file.type;
 
-      // Send required fields for new product or just update images for existing product
+      // Send required fields for new product or Update images in existing prod
       const res = await axios.post("/api/upload", {
         fileType,
       });

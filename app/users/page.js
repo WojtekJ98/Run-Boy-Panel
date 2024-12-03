@@ -6,8 +6,10 @@ import Layout from "../../components/Layout";
 import LoadingSpiner from "../../components/LoadingSpiner";
 import Link from "next/link";
 import Edit from "../../assets/icons/edit.svg";
+import { useSession } from "next-auth/react";
 
 export default function Users() {
+  const { data: session } = useSession();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,6 +19,7 @@ export default function Users() {
       setLoading(false);
     });
   }, []);
+  console.log(session?.user?.role);
 
   return (
     <>

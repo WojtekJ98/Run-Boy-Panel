@@ -5,15 +5,11 @@ import GoogleProvider from "next-auth/providers/google";
 import { NextResponse } from "next/server";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const adminEmail = ["wojtelopl@gmail.com", "runboy@example.com"];
-const adminCredentials = {
+const adminEmail = ["wojtelopl@gmail.com"];
+const testUserCredentials = {
   email: "runboy@example.com",
   password: "Runboy2024!",
 };
-
-const secret = process.env.NEXTAUTH_SECRET;
-
-console.log(secret);
 
 const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -31,11 +27,17 @@ const authOptions = {
       },
       async authorize(credentials) {
         if (
-          credentials.email === adminCredentials.email &&
-          credentials.password === adminCredentials.password
+          credentials.email === testUserCredentials.email &&
+          credentials.password === testUserCredentials.password
         ) {
-          return { id: "admin", name: "Admin", email: adminCredentials.email };
+          return {
+            id: "123",
+            name: "Run Boy",
+            email: testUserCredentials.email,
+            role: "user",
+          };
         }
+
         return null;
       },
     }),
@@ -47,24 +49,22 @@ const authOptions = {
 
   callbacks: {
     jwt: async ({ token, user }) => {
-      console.log("JWT callback triggered", { token, user });
       if (user) {
+        if (adminEmail.includes(user.email)) {
+          token.role = "admin";
+        } else {
+          token.role = user.role || "user";
+        }
         token.email = user.email;
-        token.isAdmin = adminEmail.includes(user.email);
-      } else {
-        token.isAdmin = adminEmail.includes(token.email);
       }
-      console.log("JWT Callback:", { token, user });
 
       return token;
     },
     session: async ({ session, token }) => {
-      console.log("Session callback triggered", { session, token });
-
       // Safely assign token values to the session
       session.user.email = token.email || session.user.email;
-      session.user.isAdmin = token.isAdmin || false;
-      console.log("Session Callback:", { session, token });
+      session.user.role = token.role || "user";
+      session.user.isAdmin = token.role === "admin";
 
       return session;
     },
@@ -73,3 +73,4 @@ const authOptions = {
 
 export const GET = NextAuth(authOptions);
 export const POST = NextAuth(authOptions);
+export const OPTIONS = authOptions;

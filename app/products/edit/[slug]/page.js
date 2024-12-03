@@ -23,7 +23,6 @@ export default function EditProductPage() {
 
   return (
     <Layout>
-      {" "}
       <ToastContainer />
       <h1 className="">Edit Product</h1>
       {productDetails && <ProductForm {...productDetails} />}

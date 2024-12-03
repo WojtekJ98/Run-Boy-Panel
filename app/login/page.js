@@ -26,14 +26,18 @@ export default function LoginPage() {
       password,
     });
 
+    if (!result) {
+      setError("Something went wrong. Please try again.");
+      return;
+    }
+
     if (result?.error) {
       setError("Invalid email or password.");
     } else {
-      await update();
-      router.push("/"); // Redirect to the homepage after successful login
+      await update(); // Update session if successful
+      router.push("/");
     }
   };
-
   useEffect(() => {
     if (status === "authenticated") {
       router.push("/");

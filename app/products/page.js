@@ -54,7 +54,9 @@ export default function Products() {
       closeModal();
     } catch (error) {
       console.error("Error with deleting", error);
-      toast.error("Error with deleting. Please try again!", {
+      const errorMessage =
+        error.response?.data?.error || "Error with deleting.";
+      toast.error(errorMessage, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,

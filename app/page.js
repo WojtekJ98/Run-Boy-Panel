@@ -3,15 +3,16 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function Home() {
   const { data: session, status } = useSession();
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      console.log("Session:", session); // This should trigger the session callback
-    }
-  }, [status, session]);
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     console.log("Session:", session); // This should trigger the session callback
+  //   }
+  // }, [status, session]);
   return (
     <Layout>
       <div className="text-green-600 flex  flex-col stify-between">
@@ -21,8 +22,10 @@ export default function Home() {
             Hello, {session?.user?.name}
           </h2>
           <div className="h-12 w-12">
-            <img
+            <Image
               src={session?.user?.image}
+              width={80}
+              height={80}
               alt="Profile Picture"
               className="w-full h-full object-cover rounded-full"
             />

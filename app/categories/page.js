@@ -34,12 +34,6 @@ export default function CategoriesPage() {
     e.preventDefault();
     try {
       await axios.delete(`/api/categories?id=${selectedCategoryId._id}`);
-      setCategories((prevCategories) =>
-        prevCategories.filter(
-          (category) => category._id !== selectedCategoryId._id
-        )
-      );
-      closeModal();
       toast.success("Category deleted successfully!", {
         position: "top-right",
         autoClose: 3000,
@@ -49,9 +43,17 @@ export default function CategoriesPage() {
         draggable: true,
         progress: undefined,
       });
+      setCategories((prevCategories) =>
+        prevCategories.filter(
+          (category) => category._id !== selectedCategoryId._id
+        )
+      );
+      closeModal();
     } catch (error) {
       console.error("Error with deleting", error);
-      toast.error("Failed to delete the category. Please try again.", {
+      const errorMessage =
+        error.response?.data?.error || "Error with deleting.";
+      toast.error(errorMessage, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,

@@ -2,10 +2,15 @@ import mongoose from "mongoose";
 import { Category } from "../../../models/Categories";
 import mongooseConnect from "../../lib/mongoose";
 import { NextResponse } from "next/server";
-import { isAdminReq } from "../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import { OPTIONS } from "../auth/[...nextauth]/route";
 export async function POST(req) {
   try {
     await mongooseConnect();
+    const session = await getServerSession(OPTIONS);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const body = await req.json();
     const { name, parentCategory, properties } = body;
@@ -17,6 +22,7 @@ export async function POST(req) {
       name,
       parent,
       properties,
+      owner: session.user.email,
     });
 
     return NextResponse.json({
@@ -73,13 +79,37 @@ export async function PUT(req) {
 export async function DELETE(req) {
   try {
     await mongooseConnect();
+    const session = await getServerSession(OPTIONS);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const { searchParams } = new URL(req.url);
     const _id = searchParams.get("id");
     if (!_id) {
       return NextResponse.json(
-        { error: "Product ID is required" },
+        { error: "Category ID is required" },
         { status: 400 }
+      );
+    }
+    const category = await Category.findOne({ _id });
+    if (!category) {
+      return NextResponse.json(
+        { error: "Category not found" },
+        { status: 404 }
+      );
+    }
+    if (
+      session.user.role !== "admin" &&
+      category.owner !== session.user.email
+    ) {
+      console.log(session);
+
+      return NextResponse.json(
+        {
+          error: "You can only delete category you have added.",
+        },
+        { status: 403 }
       );
     }
     await Category.deleteOne({ _id });
