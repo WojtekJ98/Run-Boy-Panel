@@ -73,4 +73,4 @@ const authOptions = {
 
 export const GET = NextAuth(authOptions);
 export const POST = NextAuth(authOptions);
-export const OPTIONS = authOptions;
+export const OPTIONS = NextAuth(authOptions);
