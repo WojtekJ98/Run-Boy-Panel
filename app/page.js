@@ -7,6 +7,7 @@ import Image from "next/image";
 import axios from "axios";
 import formatDate from "./lib/formatDate";
 import Link from "next/link";
+import LoadingSpiner from "../components/LoadingSpiner";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -92,32 +93,36 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div>
-        <h4 className="text-2xl font-semibold py-2 text-green-900">
-          New Users
-        </h4>
-        <div className="flex gap-4 flex-wrap">
-          {orders.map((user) => (
-            <Link
-              className="max-w-[350px] h-full shadow-lg p-4"
-              key={user._id}
-              href="/users">
-              <div>
-                <div className="w-full h-full flex flex-col gap-2">
-                  <span className="text-sm">User ID: {user._id}</span>
-                  <span className="text-sm">
-                    Created at: {formatDate(user.createdAt)}
-                  </span>
+      {loading ? (
+        <LoadingSpiner />
+      ) : (
+        <div>
+          <h4 className="text-2xl font-semibold py-2 text-green-900">
+            New Users
+          </h4>
+          <div className="flex gap-4 flex-wrap">
+            {orders.map((user) => (
+              <Link
+                className="max-w-[350px] h-full shadow-lg p-4"
+                key={user._id}
+                href="/users">
+                <div>
+                  <div className="w-full h-full flex flex-col gap-2">
+                    <span className="text-sm">User ID: {user._id}</span>
+                    <span className="text-sm">
+                      Created at: {formatDate(user.createdAt)}
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-2 py-2">
+                    <span>Name: {user.name}</span>
+                    <span>Mail: {user.email}</span>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2 py-2">
-                  <span>Name: {user.name}</span>
-                  <span>Mail: {user.email}</span>
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 }
