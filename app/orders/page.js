@@ -19,7 +19,6 @@ export default function Orders() {
       setLoading(false);
     });
   }, []);
-  console.log(orders);
 
   return (
     <Layout>

@@ -93,7 +93,7 @@ export default function Products() {
             </div>
             {products.map((product) => (
               <div
-                key={product.id}
+                key={product._id}
                 className="flex py-1 items-center justify-between border-b-2">
                 <h3>{product.name}</h3>
                 <div className="flex  items-center justify-center gap-2">

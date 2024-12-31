@@ -34,13 +34,6 @@ export default function Home() {
       });
   }, []);
 
-  // useEffect(() => {
-  //   if (status === "authenticated") {
-  //     console.log("Session:", session); // This should trigger the session callback
-  //   }
-  // }, [status, session]);
-  console.log(orders);
-
   return (
     <Layout>
       <div className="text-green-600 flex  flex-col justify-between">

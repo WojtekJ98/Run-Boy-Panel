@@ -24,7 +24,7 @@ export default function UserMoreInfo() {
       return;
     }
     axios.get(`/api/users?id=${slug}`).then((res) => {
-      setUserDetails(res.data);
+      setUserDetails(res.data[0]);
       setLoading(false);
     });
     axios.get(`/api/orders?user=${slug}`).then((res) => {
@@ -78,7 +78,6 @@ export default function UserMoreInfo() {
       return null;
     })
     .filter((item) => item !== null);
-  console.log(userFavoriteProducts);
 
   return (
     <Layout>

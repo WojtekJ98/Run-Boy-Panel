@@ -17,24 +17,15 @@ export default function Layout({ children }) {
     if (status === "authenticated" && !session?.user) {
       router.push("/unauthorized"); // Redirect unauthorized users
     }
+    if (!session) {
+      router.push("/login");
+    }
   }, [status, session, router]);
 
   if (status === "loading") {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <LoadingSpinner />
-      </div>
-    );
-  }
-  if (!session) {
-    return (
-      <div className="w-full h-screen flex flex-col justify-center">
-        <h1 className="text-center">You must be log in to use this app.</h1>
-        <button
-          className="btn-primary place-self-center hover:scale-105 transition-all duration-200"
-          onClick={() => router.push("/login")}>
-          Go to login
-        </button>
       </div>
     );
   }

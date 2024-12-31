@@ -236,7 +236,7 @@ export default function ProductForm({
             <option value="">Uncategorized</option>
             {categories.length > 0 &&
               categories.map((category) => (
-                <option key={category.name} value={category._id}>
+                <option key={category._id} value={category._id}>
                   {category.name}
                 </option>
               ))}

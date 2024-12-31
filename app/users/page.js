@@ -19,7 +19,6 @@ export default function Users() {
       setLoading(false);
     });
   }, []);
-  console.log(session?.user?.role);
 
   return (
     <>
