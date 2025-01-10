@@ -8,3 +8,6 @@ Run-Boy-Panel is a Next.js-based admin panel designed for managing e-commerce op
 
 ## Features
 ![Login Page Screenshot] (https:/](https://raw.githubusercontent.com/WojtekJ98/Run-Boy-Panel/main/assets/screenshots/login.png))
+
+
+![screenshot] (/assets/screenshots/login.png)
