@@ -6,7 +6,7 @@ Run-Boy-Panel is a Next.js-based admin panel designed for managing e-commerce op
 ## Live Demo
 [Run-Boy-Panel](https://run-boy-panel.vercel.app)
 
-### Visual Walkthrough
+# Visual Walkthrough
 
 ## Login page: ##
 
@@ -31,4 +31,10 @@ Run-Boy-Panel is a Next.js-based admin panel designed for managing e-commerce op
 ## User deatails view: ##
 
 ![user-deatails](https://github.com/user-attachments/assets/01539909-5b7f-426c-b157-01b6e3f6babb)
+
+
+### License
+
+This project is licensed under the MIT License - see the ##LICENSE## file for details.
+
 
