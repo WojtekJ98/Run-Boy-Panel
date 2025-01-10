@@ -8,7 +8,7 @@ Run-Boy-Panel is an admin panel application designed to manage e-commerce operat
 - Adding, editing, and deleting products.
 - Organizing products into categories with properties like size, brand, and color.
 - Monitoring orders and users efficiently.
-- 
+  
 ## Features
 - **Authentication**:
   - Secure login via Google.
@@ -16,7 +16,7 @@ Run-Boy-Panel is an admin panel application designed to manage e-commerce operat
 - **Product Management**:
   - Add new products with detailed attributes.
   - Edit or delete existing products.
-  - Categorize products with customizable properties.
+  - Categorize products with custom properties.
 - **Order and User Management**:
   - View orders in real time.
   - Oversee user details.
