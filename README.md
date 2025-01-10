@@ -11,3 +11,6 @@ Run-Boy-Panel is a Next.js-based admin panel designed for managing e-commerce op
 
 
 ![screenshot] (assets/screenshots/login.png)
+
+
+<img src="assets/screenshots/login.png) width="350">
