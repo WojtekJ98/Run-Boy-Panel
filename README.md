@@ -7,12 +7,4 @@ Run-Boy-Panel is a Next.js-based admin panel designed for managing e-commerce op
 [Run-Boy-Panel](https://run-boy-panel.vercel.app)
 
 ## Features
-- **Authentication**:
-  - Login via Google or test credentials.
-- **Order and User Management**:
-  - View and track orders.
-  - Manage user details.
-- **Product Management**:
-  - Add, edit, or delete products.
-  - Organize products into categories with customizable properties (e.g., size, brand, color).
-
+![Login Page Screenshot] (https:/](https://raw.githubusercontent.com/WojtekJ98/Run-Boy-Panel/main/assets/screenshots/login.png))
