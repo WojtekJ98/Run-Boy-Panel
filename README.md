@@ -46,7 +46,7 @@ Run-Boy-Panel is an admin panel application designed to manage e-commerce operat
 
 ![order-view](https://github.com/user-attachments/assets/617d3499-1554-4ad9-9644-9dac6e8ae50c)
 
-## User deatails view: ##
+## User details view: ##
 
 ![user-deatails](https://github.com/user-attachments/assets/01539909-5b7f-426c-b157-01b6e3f6babb)
 
